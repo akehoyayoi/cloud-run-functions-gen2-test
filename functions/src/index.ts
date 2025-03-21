@@ -12,8 +12,16 @@ import * as logger from "firebase-functions/logger";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+export const helloWorld = onRequest(
+    {
+        concurrency: 100,
+        region: "asia-northeast1",
+    },
+    async (_, response) => {
+        await sleep(500);
+        logger.info("Hello log!", {structuredData: true});
+        response.send("Hello from Firebase!");
+    }
+);
